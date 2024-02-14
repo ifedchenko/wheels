@@ -5,7 +5,7 @@ axios.defaults.baseURL = 'https://65b39409770d43aba47a096e.mockapi.io/';
 
 export const fetchPaginatedCars = createAsyncThunk('adverts', async (page, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`adverts?page=${page}&limit=10`);
+    const response = await axios.get(`adverts?page=${page}&limit=9`);
     if (response.data.length === 0) {
       console.error('No more cars avaible');
     }
