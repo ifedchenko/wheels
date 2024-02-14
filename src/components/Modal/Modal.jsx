@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from '@mui/material';
 import Card from '@mui/material/Card';
@@ -8,37 +8,9 @@ import css from './Modal.module.css';
 import sprite from '.././../images/sprite.svg';
 
 const Modal = ({ car, city, country, setIsModalOpen }) => {
-  const overlayRef = useRef(null);
-
-  useEffect(() => {
-    const handleEscape = event => {
-      if (event.key === 'Escape') {
-        setIsModalOpen(false);
-      }
-    };
-
-    const handleClickOutside = event => {
-      if (event.target === overlayRef.current) {
-        setIsModalOpen(false);
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    document.addEventListener('click', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [setIsModalOpen]);
-
   if (!car) {
     return null;
   }
-
-  const handleButtonClick = () => {
-    setIsModalOpen(false);
-  };
 
   const {
     id,
@@ -73,7 +45,7 @@ const Modal = ({ car, city, country, setIsModalOpen }) => {
   };
 
   return ReactDOM.createPortal(
-    <div className={css.overlay} role="dialog" aria-modal="true" ref={overlayRef}>
+    <div className={css.overlay} role="dialog" aria-modal="true">
       <div className={css.modal}>
         <Card sx={{ boxShadow: 'none', width: 461 }}>
           <CardMedia
@@ -178,7 +150,7 @@ const Modal = ({ car, city, country, setIsModalOpen }) => {
         >
           Rental Car
         </Button>
-        <button className={css.modalCloseBtn} type="button" onClick={handleButtonClick}>
+        <button className={css.modalCloseBtn} type="button" onClick={() => setIsModalOpen(false)}>
           <svg className={css.modalCloseSvg}>
             <use href={sprite + '#icon-modal-close'}></use>
           </svg>

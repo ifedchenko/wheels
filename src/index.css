@@ -34,5 +34,24 @@ img {
 }
 
 .container {
-  margin-top: 65px;
+  max-width: 320px;
+  margin: 0px auto;
+  padding: 16px;
+  padding-bottom: 150px;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 768px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .container {
+    max-width: 1440px;
+    padding-left: 128px;
+    padding-right: 128px;
+  }
 }

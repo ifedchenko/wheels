@@ -8,16 +8,12 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import css from './CarFilter.module.css';
-import { useSelector } from 'react-redux';
-import { selectAdverts } from '../../redux/selectors';
 
-const Filter = ({ setCars, cars }) => {
+const Filter = ({ setFilteredCars, cars }) => {
   const [carBrand, setCarBrand] = useState('');
   const [carPrice, setCarPrice] = useState('');
   const [mileageFrom, setMileageFrom] = useState('');
   const [mileageTo, setMileageTo] = useState('');
-
-  const adverts = useSelector(selectAdverts);
 
   const handleChangeModel = event => {
     setCarBrand(event.target.value);
@@ -36,18 +32,13 @@ const Filter = ({ setCars, cars }) => {
     const filteredCars = cars.filter(car => {
       const matchBrand = carBrand ? car.make === carBrand : true;
       const matchPrice = carPrice ? parseFloat(car.rentalPrice.slice(1)) <= carPrice : true;
-      console.log(car.rentalPrice.slice(1));
       const matchMileage =
         (mileageFrom ? car.mileage >= mileageFrom : true) &&
         (mileageTo ? car.mileage <= mileageTo : true);
       return matchBrand && matchPrice && matchMileage;
     });
-
-    setCars(filteredCars);
-
-    if (carBrand === '' && carPrice === '' && mileageFrom === '' && mileageTo === '') {
-      setCars(adverts);
-    }
+    setFilteredCars(filteredCars);
+    console.log(filteredCars);
   };
 
   const carBrands = cars
@@ -67,12 +58,7 @@ const Filter = ({ setCars, cars }) => {
     <div className={css.carFilter}>
       <Box sx={{ minWidth: 120, fontFamily: 'Manrope' }}>
         <Typography
-          sx={{
-            fontWeight: 500,
-            fontFamily: 'Manrope',
-            fontSize: 14,
-            marginBottom: 1,
-          }}
+          sx={{ fontWeight: 500, fontFamily: 'Manrope', fontSize: 14, marginBottom: 1 }}
           variant="h6"
           className={css.carBrandTitle}
         >
@@ -127,12 +113,7 @@ const Filter = ({ setCars, cars }) => {
           Price/ 1 hour
         </Typography>
         <FormControl
-          sx={{
-            width: 125,
-            fontFamily: 'Manrope',
-            color: '#121417',
-            backgroundColor: '#F7F7FB',
-          }}
+          sx={{ width: 125, fontFamily: 'Manrope', color: '#121417', backgroundColor: '#F7F7FB' }}
         >
           <InputLabel
             sx={{ width: 224, fontFamily: 'Manrope', color: '#121417' }}

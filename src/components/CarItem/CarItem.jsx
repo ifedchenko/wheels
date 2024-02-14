@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,31 +7,25 @@ import { createPortal } from 'react-dom';
 import Modal from '../Modal/Modal';
 import css from './CarItem.module.css';
 import sprite from '.././../images/sprite.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectFavorites } from '../../redux/selectors';
-import { addFavorite, removeFavorite } from '../../redux/slice';
 
 const CarItem = ({ car }) => {
-  const dispatch = useDispatch();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const favorites = useSelector(selectFavorites);
-
-  useEffect(() => {
-    const isCurrentFavorite = favorites.find(favorite => favorite.id === car.id);
-    if (isCurrentFavorite) setIsFavorite(true);
-  }, [favorites, car.id]);
+  const [isFavorite, setIsFavorite] = React.useState(() => {
+    const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || {};
+    return !!favoriteCars[car.id];
+  });
 
   const toggleFavoriteStatus = () => {
-    if (!isFavorite) {
-      dispatch(addFavorite(car));
-      setIsFavorite(true);
+    const newFavoriteStatus = !isFavorite;
+    setIsFavorite(newFavoriteStatus);
+
+    const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || {};
+    if (newFavoriteStatus) {
+      favoriteCars[car.id] = true;
     } else {
-      dispatch(removeFavorite(car));
-      setIsFavorite(false);
+      delete favoriteCars[car.id];
     }
+    localStorage.setItem('favoriteCars', JSON.stringify(favoriteCars));
   };
 
   const {
