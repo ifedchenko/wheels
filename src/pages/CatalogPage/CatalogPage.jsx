@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import CarList from "../../components/CarList/CarList";
-import CarFilter from "../../components/CarFilter/CarFilter";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import CarList from '../../components/CarList/CarList';
+import CarFilter from '../../components/CarFilter/CarFilter';
+import css from './CatalogPage.module.css';
 import {
   selectAdverts,
   selectIsMount,
   selectIsLoading,
   selectError,
   selectAllAdverts,
-} from "../../redux/selectors";
-import { fetchPaginatedCars, fetchAllCars } from "../../redux/operations";
-import LoadingButton from "@mui/lab/LoadingButton";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import CloseIcon from "@mui/icons-material/Close";
-import IconButton from "@mui/material/IconButton";
-import Collapse from "@mui/material/Collapse";
-import { Puff } from "react-loader-spinner";
-import Box from "@mui/material/Box";
+} from '../../redux/selectors';
+import { fetchPaginatedCars, fetchAllCars } from '../../redux/operations';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import { Puff } from 'react-loader-spinner';
+import Box from '@mui/material/Box';
 
 const Catalog = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const Catalog = () => {
 
   const loadMoreCars = async () => {
     dispatch(fetchPaginatedCars(currentPage));
-    setCurrentPage((prev) => prev + 1);
+    setCurrentPage(prev => prev + 1);
   };
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const Catalog = () => {
       setIsLoading(true);
       dispatch(fetchAllCars());
       dispatch(fetchPaginatedCars(currentPage));
-      setCurrentPage((prev) => prev + 1);
+      setCurrentPage(prev => prev + 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, isMount]);
@@ -75,10 +76,10 @@ const Catalog = () => {
               </IconButton>
             }
             sx={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
               zIndex: 9999,
             }}
           >
@@ -92,24 +93,24 @@ const Catalog = () => {
       {isLoading ? (
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
           }}
         >
           <Puff loading={isLoading} size={100} color="#1976d2" />
         </Box>
       ) : (
-        <>
+        <div className={css.listWrapper}>
           <CarList cars={cars} />
           {!isMount ? (
             <></>
           ) : (
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <LoadingButton
                 sx={{
-                  fontFamily: "Manrope",
+                  fontFamily: 'Manrope',
                   fontSize: 14,
                   fontWeight: 600,
                   marginTop: 10,
@@ -124,7 +125,7 @@ const Catalog = () => {
               </LoadingButton>
             </Box>
           )}
-        </>
+        </div>
       )}
     </section>
   );
